@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>가상화폐 거래소</title>
+<style type="text/css" media="screen">
+	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700&display=swap');
+	@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
+	@charset "UTF-8";
+
+	*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+	:after, :before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+	body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0;padding:0}
+	dl,ul,ol,menu,li {list-style:none}
+	address, caption, cite, code, dfn, em, var {font-style:normal;}
+	img,fieldset,iframe {border:0 none}
+	img {max-width: 100%;height: auto;-webkit-backface-visibility: hidden;}
+	audio,canvas,iframe,img,svg,video {vertical-align: middle;}
+	input,select,textarea,button {vertical-align:middle}
+	textarea {resize:none}
+	input::-ms-clear {display:none}
+	button {border:0 none;background-color:transparent;cursor:pointer}
+	button, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'] {border-radius:0;-webkit-appearance:button}
+	input[type="image"], input[type="text"], input[type="submit"], input[type="password"], input[type='search'] {border-radius:0;-webkit-appearance:none}
+	input:checked[type='checkbox'] {-webkit-appearance:checkbox;background-color:transparent}
+	input[type='search']::-webkit-search-cancel-button {-webkit-appearance:none}
+	table {border-collapse:collapse;border-spacing:0;empty-cells:show}
+	// caption,legend {position:absolute;top:-9999px;left:-9999px;font-size:0px;line-height:0}
+	caption,legend {visibility:hidden;overflow: hidden;width:0;height:0;font-size: 0;line-height: 0;}
+	a {text-decoration:none;select-dummy:expression(this.hideFocus=true)}
+	// a:active {background-color:transparent}
+	body,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button {/* font family, letter-spacing etc...*/}
+	hr {display:none}
+	textarea, input{-webkit-apperence: none;}
+	article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,main,menu {display:block}
+	blockquote,q {quotes:none}
+	blockquote:before,blockquote:after,q:before,q:after {content:'';content:none}
+	sup, sub{line-height: 0;}
+	html, body {width:100%;}
+	ul:after, ol:after{content:'';clear:both;display:block}
+
+
+	html{
+		font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+		color: #2d3e50;
+		overflow: hidden;
+	}
+	a{
+		color: #2d3e50;
+	}
+	header{
+		background: #2d3e50;
+		position: fixed;
+		left:0;
+		top: 0;
+		width: 100%;
+
+	}
+	header h1{
+		color: #fff;
+		font-size: 24px;
+		padding: 0 40px;
+		height: 100px;
+		line-height: 100px;
+
+	}
+	.app-container{
+
+		width: 100%;
+		margin: auto;
+		/* padding: 0 40px; */
+	}
+	.app-inner{
+		padding-top: 100px;
+	}
+	.row{
+		display: table;
+		width: 100%;
+		height: 100vh;
+		overflow: hidden;
+		border: 1px solid #e7e7e7;
+	}
+	.row .column{
+		display: table-cell;
+		height: 100vh;
+		float: left;
+		width: 33.33%;
+		overflow: auto;
+
+	}
+	.row .column+.column{
+		border-left: 1px solid #e7e7e7;
+	}
+	.tbl table{
+		width: 100%;
+		/* border: 1px solid #e7e7e7; */
+	}
+	.tbl table tr th,td{
+		padding: 10px 15px;
+	}
+	.tbl table tr+tr{
+		border-top: 1px solid #e7e7e7;
+	}
+	.tbl table tr th{
+		color: #999;
+		font-weight: 400;
+		font-size: 13px;
+		height: 40px;
+	}
+	.tbl table tr td{
+		font-size: 13px;
+	}
+	.tbl table tr td.left,
+	.tbl table tr th.left{
+		text-align: left;
+	}
+	.tbl table tr td.center,
+	.tbl table tr th.center{
+		text-align: center;
+	}
+	.tbl table tr td.right,
+	.tbl table tr th.right{
+		text-align: right;
+	}
+	.tbl table tr td.red{
+		color: #ff7a59;
+	}
+	.tbl table tr td.blue{
+		color: #4386f9;
+	}
+	.tbl.list table tr:nth-child(even){
+		background: #fafafa;
+
+	}
+	.tbl.numbers table tr.on,
+	.tbl.numbers table tr:hover{
+		background: #eee;
+	}
+	.tbl table tr td em{
+		color: #999;
+	}
+	.tbl table tr td b{
+		font-size: 20px;
+		font-weight: 400;
+	}
+	.title-line{
+		height: 41px;
+		line-height: 41px;
+
+		font-size: 18px;
+		padding: 0 20px;
+	}
+	.title-line span{
+		float: right;
+	}
+	.title-line.sub{
+		font-size: 15px;
+	}
+	.title-line + .title-line{
+		display: block;
+		border-top: 1px solid #e7e7e7;
+		/* margin-top: 10px; */
+	}
+	.title-line-box{
+		border-bottom: 1px solid #e7e7e7;
+		margin-bottom: 40px;
+
+	}
+	.title-line-box.noline .title-line{
+		border-top: 0;
+		font-size: 14px;
+		font-weight: 400;
+		color: #999;
+	}
+	.title-line-box.noline .title-line span{
+		color: #2a2a2a;
+		font-size: 18px;
+	}
+	.title-line-box.noline .title-line span.red{
+		font-size: 24px;
+		font-weight: 700;
+	}
+
+	.title-line-box + .tbl{
+		margin-top: 40px;
+	}
+	.btn{
+		width: 200px;
+		margin: auto;
+		font-size: 16px;
+		font-weight: 500;
+		display: block;
+		color: #fff;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 10px;
+		background: #4386f9;
+	}
+	.tbl .btn{
+		color: #4386f9;
+		max-width: 70px;
+		height: 30px;
+		line-height: 30px;
+		font-size: 14px;
+		text-align: center;
+		border-radius: 4px;
+		background: #fafafa;
+		border: 1px solid #4386f9;
+	}
+	.btn-box{
+		margin: 20px 0;
+	}
+	.btn:hover{
+		opacity: 0.9;
+	}
+	.tbl input{
+		width: 100%;
+	}
+	input{
+		border: 1px solid #bbb;
+		border-radius: 4px;
+		height: 40px;
+		line-height: 40px;
+		font-size: 15px;
+		padding-left: 20px;
+		padding-right: 20px;
+		outline: none;
+	}
+	input:focus{
+		border-color: #4386f9;
+	}
+	article{
+		padding: 20px;
+	}
+	.red{
+		color: #ff7a59!important;
+	}
+	
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+		
+		$.getJSON("listMoney", function(data){
+			$.each(data, function(idx, coin){
+				var tr = $("<tr></tr>");
+				var td_name = $("<td class='left name'></td>").html( "<span>"+coin.coin+"</span><br><em>"+coin.rateName+"</em>" );
+				var td_present = $("<td class='right count'></td>").html( coin.present );
+				var td_change = $("<td class='center'></td>").html( coin.change );
+				if( (coin.change).substring(0,1) == "-" ){
+					$(td_change).addClass("blue percent");
+					$(td_present).addClass("blue");
+				}else{
+					$(td_change).addClass("red percent");
+					$(td_present).addClass("red");
+				}
+				var td_trade = $("<td class='right value'></td>").html( coin.trade_p );
+				
+				$(tr).append(td_name, td_present, td_change, td_trade);
+				$("#money_list").append(tr);
+			})
+			$('.tbl.numbers').each(function(){
+				$(this).find('tr').click(function(){
+					// var valName = $(this).find('.name').text();
+					var valName = $(this).find('.name span').text();
+					var valNameSub = $(this).find('.name em').text();
+					var valCount = $(this).find('.count').text();
+					var valPercent = $(this).find('.percent').text();
+					var valValue = $(this).find('.value').text();
+					$(this).addClass('on').siblings().removeClass('on');
+					$('.coin-name').text(valName);
+					$('.coin-count').text(valNameSub);
+					$('.coin-percent').text(valCount);
+					$('.coin-value').text(valPercent);
+					$('.coin-result').text(valCount);
+					$('#qty').val("");
+					$('#pcs_total').val("");
+				});
+			});
+		})
+
+	
+	$("#qty").keyup(function(){
+		var qty = eval($(this).val());
+		var price = $("#pcs_present").html();
+		price = price.replace(/,/gi,'');
+		//console.log(price);
+		price = eval(price);
+		//console.log(price);
+		var total = price * qty;
+		$("#pcs_total").val(total);
+	})
+	
+	$("#btn_pcs").click(function(){
+		var tr = $("<tr></tr>");
+		var td_name = $("<td class='left'></td>").html( $(".coin-name").html() );
+		var td_qty = $("<td class='center'></td>").html( $("#qty").val() );
+		var td_total = $("<td class='right red'></td>").html( $("#pcs_total").val() );
+		var td_sell = $("<td class='right red'></td>").append( $("<a href='#' class='btn sell' id='btn_sell'></a>").html("매도") );
+		
+		$(tr).append(td_name, td_qty, td_total, td_sell);
+		$("#sell_list").append(tr);
+		
+		$('.tbl').find('.sell').each(function(){
+			$(this).click(function(e){
+				e.preventDefault();
+				alert('매도 되었습니다.');
+				$(this).parents('tr').remove();
+			});
+		});
+	});
+});
+</script>
+</head>
+<body>
+	<div class="app-container">
+		<header>
+			<h1>가상화폐 거래소</h1>
+		</header>
+		<div class="app-inner">
+			<div class="row">
+				<div class="column">
+					<article>
+						<div class="tbl numbers list">
+							<table id="money_list">
+								<colgroup>
+									<col style="width:20%;">
+									<col style="width:20%;">
+									<col style="width:30%;">
+									<col style="width:auto;">
+								</colgroup>
+								<tr>
+									<th class="left">자산</th>
+									<th class="right">현재가</th>
+									<th class="center">변동률(전일대비)</th>
+									<th class="right">거래금액(24H)</th>
+								</tr>
+							</table>
+						</div>
+					</article>
+
+				</div>
+				<div class="column">
+					<article>
+						<div class="title-line-box noline">
+							<div class="title-line"> <span class="coin-name red"></span></div>
+							<div class="title-line sub"> <span class="coin-count"></span></div>
+							<div class="title-line"> <span class="coin-percent red"></span></div>
+							<div class="title-line sub"> <span class="coin-value"></span></div>
+						</div>
+					</article>
+					<article>
+						<div class="title-line-box">
+							<h3 class="title-line">매수</h3>
+						</div>
+						<div class="tbl">
+							<table id="buy_list">
+								<colgroup>
+									<col style="width:20%;">
+									<col style="width:auto;">
+								</colgroup>
+								<tr>
+									<th class="left">종목</th>
+									<td class="right"><b class="coin-name"></b></td>
+
+								</tr>
+								<tr>
+									<th class="left">수량</th>
+									<td class="right"><input type="number" id="qty"></td>
+
+								</tr>
+								<tr>
+									<th class="left">단가</th>
+									<td class="right red"><b id="pcs_present" class="coin-result"></b> 원</td>
+
+								</tr>
+								<tr>
+									<th class="left">금액</th>
+									<td><input type="number" id="pcs_total"></td>
+								</tr>
+
+							</table>
+						</div>
+					</article>
+					<div class="btn-box">
+						<button id="btn_pcs" class="btn buying">매수</button>
+					</div>
+				</div>
+				<div class="column">
+					<article>
+						<div class="title-line-box">
+							<h3 class="title-line">매도</h3>
+						</div>
+
+						<div class="tbl list">
+							<table id="sell_list">
+								<colgroup>
+									<col style="width:20%;">
+									<col style="width:20%;">
+									<col style="width:25%;">
+									<col style="width:auto;">
+								</colgroup>
+								<tr>
+									<th class="left">종목</th>
+									<th class="center">수량</th>
+									<th class="right">금액</th>
+									<th class="center"></th>
+								</tr>
+							</table>
+						</div>
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
